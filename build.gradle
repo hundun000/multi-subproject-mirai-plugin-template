@@ -1,0 +1,47 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+
+    }
+}
+plugins {
+    id("net.mamoe.mirai-console") version "2.11.0-RC2" // mirai-console version
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+}
+
+allprojects {
+    apply plugin: "net.mamoe.mirai-console"
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+
+    version '0.0.1-SNAPSHOT'
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_7
+        targetCompatibility = JavaVersion.VERSION_1_7
+    }
+}
+
+project(":bot-plugin") {
+
+    dependencies {
+        implementation project(":bot-core")
+        //asNormalDep project(":bot-core")
+    }
+
+}
+
+project(":bot-core") {
+
+    dependencies {
+        api "com.zaxxer:SparseBitSet:1.2"
+    }
+}
