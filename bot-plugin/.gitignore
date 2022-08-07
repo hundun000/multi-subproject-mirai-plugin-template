@@ -1,1 +1,9 @@
+/config/
+/bots/
+/plugins/
+/data/
+/logs/
+/plugin-shared-libraries/
+/plugin-libraries/
+
 /build

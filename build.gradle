@@ -9,7 +9,7 @@ buildscript {
     }
 }
 plugins {
-    id("net.mamoe.mirai-console") version "2.11.0-RC2" // mirai-console version
+    id("net.mamoe.mirai-console") version "2.11.0" // mirai-console version
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
 }
 
@@ -22,26 +22,67 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 
     java {
         sourceCompatibility = JavaVersion.VERSION_1_7
         targetCompatibility = JavaVersion.VERSION_1_7
     }
-}
-
-project(":bot-plugin") {
 
     dependencies {
-        implementation project(":bot-core")
-        //asNormalDep project(":bot-core")
+        compileOnly 'org.projectlombok:lombok:1.18.4'
+        annotationProcessor 'org.projectlombok:lombok:1.18.4'
     }
+}
 
+
+
+project(":bot-plugin") {
+    dependencies {
+        implementation project(":bot-core")
+        asNormalDep project(":bot-core-asNormalDep")
+        // ------  预期以下依赖写入dependencies.txt ------
+        implementation 'com.google.code.gson:gson:2.8.9'
+    }
 }
 
 project(":bot-core") {
-
+    // 预期该子项目buildPlugin时【源码被打入jar】
     dependencies {
+        api project(":bot-core-asNormalDep")
+        // ------  预期以下依赖写入dependencies.txt ------
+        api 'com.github.hundun000.mirai-fleet-framework:framework-core:0.5.1'
+    }
+}
+
+project(":bot-core-asNormalDep") {
+    // 预期该子项目buildPlugin时写入dependencies.txt
+    dependencies {
+        // ------  预期以下依赖写入dependencies.txt ------
         api "com.zaxxer:SparseBitSet:1.2"
     }
 }
+
+/*
+project(":share-thirdpart") {
+    dependencies {
+        api "com.zaxxer:sparsebitset:1.2"
+        api "com.zaxxer:sparsebitset:1.2"
+        api "com.zaxxer:sparsebitset:1.2"
+    }
+}
+
+project(":share-sourcecode") {
+    dependencies {
+        api project(":share-thirdpart")
+        api (":share-thirdpart")
+    }
+}
+
+project(":plugin") {
+    dependencies {
+        implementation project(":share-sourcecode")
+        asnormaldep project(":share-thirdpart")
+    }
+}*/

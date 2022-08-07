@@ -1,3 +1,4 @@
 include ':bot-plugin'
 include ':bot-core'
+include ":bot-core-asNormalDep"
 rootProject.name = "multi-subproject-mirai-plugin-template"
